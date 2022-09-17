@@ -1,0 +1,13 @@
+{# @var services \Shopware\Core\Framework\Script\ServiceStubs #}
+
+{% macro calculateVoucher(codeEntity) %}
+    {% set discount = services.cart.get('k10r-boost-voucher').price.getTotal %}
+    {% do services.cart.remove('k10r-boost-voucher') %}
+
+    {% set price = services.cart.price.create({
+        'default': { 'gross': min(codeEntity.amount, services.cart.price.total - discount), 'net':min(codeEntity.amount, services.cart.price.total - discount) }
+    }) %}
+
+    {% do services.cart.discount('k10r-boost-voucher', 'absolute', price, 'Code: ' ~ codeEntity.code) %}
+    {% do services.cart.get('k10r-boost-voucher').getItem.addExtension('ce_boostday_code', codeEntity) %}
+{% endmacro %}

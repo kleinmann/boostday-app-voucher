@@ -1,0 +1,10 @@
+{
+  "k10r_boost": {
+	"checkout": {
+	  "voucher_code": {
+		"label": "Voucher Code",
+		"redeem": "Redeem"
+	  }
+	}
+  }
+}

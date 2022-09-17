@@ -1,0 +1,13 @@
+{% sw_extends "@Storefront/storefront/page/checkout/summary.html.twig" %}
+
+{% block page_checkout_summary_inner %}
+    {{ parent() }}
+
+    {% block k10r_boost_voucher_input %}
+        <form action="{{ url('frontend.script_endpoint', {hook: 'redeem-code'}) }}" method="post" data-form-csrf-handler="true">
+            {{ sw_csrf('frontend.script_endpoint') }}
+            <label>{{ 'k10r_boost.checkout.voucher_code.label' | trans }}<input type="text" name="voucherCode" placeholder="{{ 'k10r_boost.checkout.voucher_code.label' | trans }}"></label>
+            <button type="submit">{{ 'k10r_boost.checkout.voucher_code.redeem' | trans }}</button>
+        </form>
+    {% endblock %}
+{% endblock %}

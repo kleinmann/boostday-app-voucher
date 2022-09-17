@@ -1,0 +1,11 @@
+{# @var hook \Shopware\Storefront\Framework\Script\Api\StorefrontHook #}
+{# @var services \Shopware\Core\Framework\Script\ServiceStubs #}
+{# @var debug \Shopware\Core\Framework\Script\Debugging\Debug #}
+{% import "include/cart-helper.twig" as cartHelper %}
+
+{% set lineItem = services.cart.get('k10r-boost-voucher') %}
+{% set codeEntity = lineItem.getItem.extension('ce_boostday_code') %}
+
+{% if lineItem and codeEntity and services.cart.price.total %}
+    {% do cartHelper.calculateVoucher(codeEntity) %}
+{% endif %}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/Framework/App/Manifest/Schema/manifest-1.0.xsd">
+    <meta>
+        <name>Boostday</name>
+        <label>My Label</label>
+        <label lang="de-DE">My Label</label>
+        <description></description>
+        <description lang="de-DE"></description>
+        <author>Your Company</author>
+        <copyright>(c) by Your Company</copyright>
+        <version>1.0.6</version>
+        <icon>Resources/config/plugin.png</icon>
+        <license>MIT</license>
+    </meta>
+    <permissions>
+        <update>order_line_item</update>
+    </permissions>
+</manifest>

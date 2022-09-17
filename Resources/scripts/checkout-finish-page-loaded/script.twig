@@ -1,0 +1,12 @@
+{# @var hook \Shopware\Storefront\Page\Checkout\Finish\CheckoutFinishPageLoadedHook #}
+{# @var services \Shopware\Core\Framework\Script\ServiceStubs #}
+{# @var debug \Shopware\Core\Framework\Script\Debugging\Debug #}
+
+{% for item in hook.page.order.lineItems.filterByType(constant('Shopware\\Core\\Checkout\\Cart\\LineItem\\LineItem::DISCOUNT_LINE_ITEM')) %}
+    {% if item.identifier == 'k10r-boost-voucher' and not item.customFields.k10r_boost_voucher_reconciled %}
+        {% set voucherCode = item.label|replace({'Code: ': ''}) %}
+        {% set voucher = services.repository.search('ce_boostday_code', { 'filter': [{type: 'equals', field: 'code', value: voucherCode}]}).first %}
+        {% do services.writer.upsert('ce_boostday_code', [{id: voucher.id, amount: voucher.amount + item.totalPrice}]) %}
+        {% do services.writer.upsert('order_line_item', [{id: item.id, customFields: {'k10r_boost_voucher_reconciled': true}}]) %}
+    {% endif %}
+{% endfor %}

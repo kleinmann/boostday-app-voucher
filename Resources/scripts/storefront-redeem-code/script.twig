@@ -1,0 +1,20 @@
+{# @var hook \Shopware\Storefront\Framework\Script\Api\StorefrontHook #}
+{# @var services \Shopware\Core\Framework\Script\ServiceStubs #}
+{# @var debug \Shopware\Core\Framework\Script\Debugging\Debug #}
+
+{% import "include/cart-helper.twig" as cartHelper %}
+
+{% set page = hook.page %}
+{# @var page \Shopware\Storefront\Page\Page #}
+{% set couponCode = hook.request['voucherCode'] %}
+{% set codeEntity = services.repository.search('ce_boostday_code', { 'filter': [{ 'value': couponCode, 'field': 'code', 'type': 'equals' }]}).first %}
+
+{% if codeEntity %}
+    {% do cartHelper.calculateVoucher(codeEntity) %}
+
+    {% do services.cart.calculate() %}
+    {% do services.cartPersister.save() %}
+{% endif %}
+
+{% set response = services.response.redirect('frontend.checkout.cart.page', {}) %}
+{% do hook.setResponse(response) %}
